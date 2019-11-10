@@ -1,4 +1,4 @@
-package fr.uga.miashs;
+package fr.uga.miashs.Game;
 
 /**
  * @author Cheng Xinyun
@@ -8,6 +8,7 @@ public class Play {
 
 	public void play(){
 		Grille.PrintGrille();
+
 	}
 
 	public static void main(String[] args) {

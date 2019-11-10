@@ -1,4 +1,4 @@
-package fr.uga.miashs;
+package fr.uga.miashs.Game;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,15 +17,14 @@ import java.awt.event.WindowEvent;
 public class Grille {
 
 	/**
-	 * the value of name
+	 * the name of game
 	 */
 	private static final String NAME = "Jeu de Morpion";
 	private static JButton button1, button2, button3, button4, button5, button6, button7, button8, button9;
 	private static JFrame grille; //600x600
-	private static int mouve = 0;
-	private static boolean win = false;
-	private static JButton but = null;
-	private static int[][] res = new int [3][3]; //use to calculate result
+	private static int mouvement = 0;
+	private static boolean win = false; //check win
+	public static JButton[][] buttons = new JButton[3][3]; //use to calculate result
 
 	/**
 	 * @function print chessboard
@@ -59,6 +58,8 @@ public class Grille {
 		setFont(button9);
 		button9.setBackground(Color.WHITE);
 
+		initializeButtons(buttons);
+
 		grille = new JFrame(NAME);
 		grille.setLayout(new GridLayout(3, 3));
 		grille.add(button1);
@@ -72,7 +73,7 @@ public class Grille {
 		grille.add(button9);
 
 		closeWindow();
-		grille.setSize(600, 600);
+		grille.setSize(400, 400);
 		grille.setLocation(300, 200);
 		grille.setVisible(true);
 		grille.setResizable(false);
@@ -101,7 +102,7 @@ public class Grille {
 	 */
 	public static boolean countTour() {
 		boolean fistPlayer;
-		if (mouve % 2 == 0) {
+		if (mouvement % 2 == 0) {
 			//first player
 			fistPlayer = true;
 			return fistPlayer;
@@ -113,7 +114,7 @@ public class Grille {
 	}
 
 	/**
-	 * function : handle action of button
+	 * @function : handle action of button
 	 */
 	public static void actionButton() {
 		actionHandler(button1);
@@ -127,8 +128,12 @@ public class Grille {
 		actionHandler(button9);
 	}
 
+	/**
+	 * @param button
+	 * @function set button font
+	 */
 	public static void setFont(JButton button) {
-		Font font = new Font("Serief", Font.ITALIC, 78);
+		Font font = new Font("Serief", Font.ITALIC, 58);
 		button.setFont(font);
 	}
 
@@ -139,56 +144,155 @@ public class Grille {
 	public static void actionHandler(final JButton button) {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == button && countTour() && mouve <=9) {
-					//first player
+				if (e.getSource() == button && countTour() && mouvement <= 9 && !win) {
+					//first player X
 					button.setForeground(Color.BLACK);//??? no effect
 					button.setText("X");
 					button.setEnabled(false);
-					mouve++;
-					switch (button.getText()){
-						case "button1" :
-							res[0][0] = 1;
-							break;
-						case "button2" :
-							res[0][1] = 1;
-							break;
-						case "button3" :
-							res[0][2] = 1;
-							break;
-						case "button4" :
-							res[1][0] = 1;
-							break;
-						case "button5" :
-							res[1][1] = 1;
-							break;
-						case "button6" :
-							res[1][2] = 1;
-							break;
-						case "button7" :
-							res[2][0] = 1;
-							break;
-						case "button8" :
-							res[1][0] = 1;
-							break;
-					}
-
-				} else if (e.getSource() == button && !countTour() && mouve <= 9) {
-					//second player
+					mouvement++;
+					printButtons(buttons);
+					checkWin();
+				} else if (e.getSource() == button && !countTour() && mouvement <= 9 && !win) {
+					//second player O
 					button.setForeground(Color.RED);//??? no effect
 					button.setText("O");
 					button.setBackground(Color.YELLOW);
 					button.setEnabled(false);
-					but = button;
-					mouve++;
+					mouvement++;
+					printButtons(buttons);
+					checkWin();
 				}
 			}
 		});
 	}
 
-	public static void checkWin(){
-     int count = 0;
-
-
+	/**
+	 * @function if win stop game else continue game
+	 * mouvement <= 9
+	 */
+	public static void checkWin() {
+		if (buttons[0][2].getText().equals(buttons[1][2].getText()) && buttons[1][2].getText().equals(buttons[2][2].getText()) && buttons[2][2].getText().equals(buttons[0][2].getText()) && !buttons[1][2].getText().equals("")) {
+			win = true;
+			System.out.println(buttons[1][2].getText() + " wins!!!");
+			JOptionPane.showMessageDialog(grille, buttons[1][2].getText() + " wins!!!");
+			closeWindow();
+		} else if (mouvement == 9) {
+			win = true;
+			System.out.println("Draw");
+			JOptionPane.showMessageDialog(grille, "Draw");
+			closeWindow();
+		}
+		if (buttons[0][1].getText().equals(buttons[1][1].getText()) && buttons[1][1].getText().equals(buttons[2][1].getText()) && buttons[2][1].getText().equals(buttons[0][1].getText()) && !buttons[1][1].getText().equals("")) {
+			win = true;
+			System.out.println(buttons[1][1].getText() + " wins!!!");
+			JOptionPane.showMessageDialog(grille, buttons[1][1].getText() + " wins!!!");
+			closeWindow();
+		} else if (mouvement == 9) {
+			win = true;
+			System.out.println("Draw");
+			JOptionPane.showMessageDialog(grille, "Draw");
+			closeWindow();
+		}
+		if (buttons[0][0].getText().equals(buttons[1][0].getText()) && buttons[1][0].getText().equals(buttons[2][0].getText()) && buttons[2][0].getText().equals(buttons[0][0].getText()) && !buttons[1][0].getText().equals("")) {
+			win = true;
+			System.out.println(buttons[1][0].getText() + " wins!!!");
+			JOptionPane.showMessageDialog(grille, buttons[1][0].getText() + " wins!!!");
+			closeWindow();
+		} else if (mouvement == 9) {
+			win = true;
+			System.out.println("Draw");
+			JOptionPane.showMessageDialog(grille, "Draw");
+			closeWindow();
+		}
+		if (buttons[2][0].getText().equals(buttons[2][1].getText()) && buttons[2][1].getText().equals(buttons[2][2].getText()) && buttons[2][2].getText().equals(buttons[2][0].getText()) && !buttons[2][1].getText().equals("")) {
+			win = true;
+			System.out.println(buttons[2][1].getText() + " wins!!!");
+			JOptionPane.showMessageDialog(grille, buttons[2][1].getText() + " wins!!!");
+			closeWindow();
+		} else if (mouvement == 9) {
+			win = true;
+			System.out.println("Draw");
+			JOptionPane.showMessageDialog(grille, "Draw");
+			closeWindow();
+		}
+		if (buttons[1][0].getText().equals(buttons[1][1].getText()) && buttons[1][1].getText().equals(buttons[1][2].getText()) && buttons[1][2].getText().equals(buttons[1][0].getText()) && !buttons[1][1].getText().equals("")) {
+			win = true;
+			System.out.println(buttons[1][1].getText() + " wins!!!");
+			JOptionPane.showMessageDialog(grille, buttons[1][1].getText() + " wins!!!");
+			closeWindow();
+		} else if (mouvement == 9) {
+			win = true;
+			System.out.println("Draw");
+			JOptionPane.showMessageDialog(grille, "Draw");
+			closeWindow();
+		}
+		if (buttons[0][0].getText().equals(buttons[0][1].getText()) && buttons[0][1].getText().equals(buttons[0][2].getText()) && buttons[0][2].getText().equals(buttons[0][0].getText()) && !buttons[0][1].getText().equals("")) {
+			win = true;
+			System.out.println(buttons[0][1].getText() + " wins!!!");
+			JOptionPane.showMessageDialog(grille, buttons[0][1].getText() + " wins!!!");
+			closeWindow();
+		} else if (mouvement == 9) {
+			win = true;
+			System.out.println("Draw");
+			JOptionPane.showMessageDialog(grille, "Draw");
+			closeWindow();
+		}
+		if (buttons[0][0].getText().equals(buttons[1][1].getText()) && buttons[1][1].getText().equals(buttons[2][2].getText()) && buttons[2][2].getText().equals(buttons[0][0].getText()) && !buttons[1][1].getText().equals("")) {
+			win = true;
+			System.out.println(buttons[1][1].getText() + " wins!!!");
+			JOptionPane.showMessageDialog(grille, buttons[1][1].getText() + " wins!!!");
+			closeWindow();
+		} else if (mouvement == 9) {
+			win = true;
+			System.out.println("Draw");
+			JOptionPane.showMessageDialog(grille, "Draw");
+			closeWindow();
+		}
+		if (buttons[0][2].getText().equals(buttons[1][1].getText()) && buttons[1][1].getText().equals(buttons[2][0].getText()) && buttons[2][0].getText().equals(buttons[0][2].getText()) && !buttons[1][1].getText().equals("")) {
+			win = true;
+			System.out.println(buttons[1][1].getText() + " wins!!!");
+			JOptionPane.showMessageDialog(grille, buttons[1][1].getText() + " wins!!!");
+			closeWindow();
+		} else if (mouvement == 9) {
+			win = true;
+			System.out.println("Draw");
+			JOptionPane.showMessageDialog(grille, "Draw");
+			closeWindow();
+		}
 	}
 
+	/**
+	 * @param buttons
+	 * @function initialize table buttons to record status
+	 */
+	public static void initializeButtons(JButton[][] buttons) {
+		buttons[0][0] = button1;
+		buttons[0][1] = button2;
+		buttons[0][2] = button3;
+		buttons[1][0] = button4;
+		buttons[1][1] = button5;
+		buttons[1][2] = button6;
+		buttons[2][0] = button7;
+		buttons[2][1] = button8;
+		buttons[2][2] = button9;
+	}
+
+	/**
+	 * @param buttons
+	 * @function print buttons table
+	 */
+	public static void printButtons(JButton[][] buttons) {
+
+		for (int i = 0; i < buttons.length; i++) {
+			for (int j = 0; j < buttons.length; j++) {
+				if ("".equals(buttons[i][j].getText())) {
+					System.out.print("-\t");
+				} else {
+					System.out.print(buttons[i][j].getText() + "\t");
+				}
+			}
+			System.out.println();
+		}
+		System.out.println("-- " + mouvement + " tour --");
+	}
 }
