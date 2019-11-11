@@ -14,7 +14,7 @@ import java.awt.event.WindowEvent;
  * @function plateau de jeu
  */
 
-public class Grille {
+public class Game {
 
 	/**
 	 * the name of game

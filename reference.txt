@@ -1,0 +1,11 @@
+UI版本
+http://cn.voidcc.com/question/p-xulqjjlw-bch.html
+
+console 版本
+https://blog.csdn.net/qq_32855219/article/details/53313585
+
+
+Algo à voir
+https://pi.ac3j.fr/algorithmique-et-programmation-scratch-tic-tac-toe/
+
+https://www.ntu.edu.sg/home/ehchua/programming/java/JavaGame_TicTacToe_AI.html
