@@ -2,7 +2,7 @@ package fr.uga.miashs.Game;
 
 /**
  * @author Cheng Xinyun
- * @function version 2 de jeu
+ * @function version 1 de jeu
  */
 public class Play {
 
